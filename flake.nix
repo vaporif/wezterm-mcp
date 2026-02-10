@@ -7,6 +7,7 @@
   };
 
   outputs = {
+    self,
     nixpkgs,
     flake-utils,
   }:
@@ -23,10 +24,6 @@
         npmDepsHash = "sha256-dnBt1hK/E0H2fpEQNFXUS3GrsF5s0r3PS3JjIxSXe7g=";
 
         inherit nodejs;
-
-        buildPhase = ''
-          npm run build
-        '';
 
         installPhase = ''
           mkdir -p $out/lib/wezterm-mcp $out/bin
