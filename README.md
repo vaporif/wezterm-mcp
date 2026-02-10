@@ -14,6 +14,13 @@ npm install
 npm run build
 ```
 
+### Nix
+
+```bash
+nix build    # build the package
+nix run      # run directly
+```
+
 ## Usage
 
 Add to your MCP client configuration (e.g. Claude Code `~/.claude.json`):
@@ -57,6 +64,7 @@ Add to your MCP client configuration (e.g. Claude Code `~/.claude.json`):
 npm run dev    # Run directly via tsx
 npm run build  # Compile to build/
 npm start      # Run compiled output
+nix develop    # Nix devShell with node + wezterm
 ```
 
 ## License

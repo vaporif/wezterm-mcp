@@ -3,8 +3,7 @@ import type { Tool } from "@modelcontextprotocol/sdk/types.js";
 const PaneId = {
   pane_id: {
     type: "number",
-    description:
-      "Target pane ID. Defaults to the current pane (WEZTERM_PANE).",
+    description: "Target pane ID. Defaults to the current pane (WEZTERM_PANE).",
   },
 } as const;
 
@@ -55,8 +54,7 @@ export const tools: Tool[] = [
   },
   {
     name: "get_pane_direction",
-    description:
-      "Get the pane ID of the adjacent pane in the given direction.",
+    description: "Get the pane ID of the adjacent pane in the given direction.",
     inputSchema: {
       type: "object",
       properties: { ...PaneId, ...Direction },
@@ -67,8 +65,7 @@ export const tools: Tool[] = [
   // ── Pane management ────────────────────────────────────
   {
     name: "split_pane",
-    description:
-      "Split a pane. Returns the new pane ID.",
+    description: "Split a pane. Returns the new pane ID.",
     inputSchema: {
       type: "object",
       properties: {

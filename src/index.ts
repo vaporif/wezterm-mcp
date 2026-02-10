@@ -6,12 +6,12 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { tools } from "./tools.js";
 import { handleTool } from "./handlers.js";
+import { tools } from "./tools.js";
 
 const server = new Server(
   { name: "wezterm-mcp", version: "0.1.0" },
-  { capabilities: { tools: {} } }
+  { capabilities: { tools: {} } },
 );
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools }));

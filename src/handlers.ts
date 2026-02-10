@@ -6,7 +6,11 @@ const DIRECTIONS = new Set(["Up", "Down", "Left", "Right", "Next", "Prev"]);
 const SPLIT_DIRECTIONS = new Set(["left", "right", "top", "bottom"]);
 const ZOOM_MODES = new Set(["zoom", "unzoom", "toggle"]);
 
-function validateEnum(value: unknown, allowed: Set<string>, label: string): string {
+function validateEnum(
+  value: unknown,
+  allowed: Set<string>,
+  label: string,
+): string {
   const s = String(value);
   if (!allowed.has(s)) throw new Error(`Invalid ${label}: ${s}`);
   return s;
@@ -17,7 +21,9 @@ function paneArgs(args: Args): string[] {
 }
 
 function textResult(text: string, trim = true) {
-  return { content: [{ type: "text" as const, text: trim ? text.trim() : text }] };
+  return {
+    content: [{ type: "text" as const, text: trim ? text.trim() : text }],
+  };
 }
 
 export async function handleTool(name: string, args: Args) {
@@ -31,7 +37,8 @@ export async function handleTool(name: string, args: Args) {
 
     case "get_text": {
       const a: string[] = [...paneArgs(args)];
-      if (args.start_line != null) a.push("--start-line", String(args.start_line));
+      if (args.start_line != null)
+        a.push("--start-line", String(args.start_line));
       if (args.end_line != null) a.push("--end-line", String(args.end_line));
       if (args.escapes) a.push("--escapes");
       return textResult(await wezterm("get-text", ...a), false);
@@ -81,9 +88,7 @@ export async function handleTool(name: string, args: Args) {
     }
 
     case "activate_pane":
-      return textResult(
-        await wezterm("activate-pane", ...paneArgs(args))
-      );
+      return textResult(await wezterm("activate-pane", ...paneArgs(args)));
 
     case "activate_pane_direction": {
       const dir = validateEnum(args.direction, DIRECTIONS, "direction");

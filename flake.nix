@@ -21,7 +21,7 @@
 
         src = ./.;
 
-        npmDepsHash = "sha256-dnBt1hK/E0H2fpEQNFXUS3GrsF5s0r3PS3JjIxSXe7g=";
+        npmDepsHash = "sha256-F6cFDNT1JoRLQoI5dWfCPMALvJQFJAcyytFRmTodFDg=";
 
         inherit nodejs;
 

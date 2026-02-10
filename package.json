@@ -10,15 +10,23 @@
   "scripts": {
     "build": "tsc",
     "start": "node build/index.js",
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/index.ts",
+    "lint": "biome check src/",
+    "lint:fix": "biome check --write src/",
+    "format": "biome format --write src/"
   },
-  "keywords": ["mcp", "wezterm", "terminal"],
+  "keywords": [
+    "mcp",
+    "wezterm",
+    "terminal"
+  ],
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "zod": "^3.25.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.3.14",
     "@types/node": "^22.0.0",
     "tsx": "^4.0.0",
     "typescript": "^5.7.0"
