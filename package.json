@@ -1,0 +1,26 @@
+{
+  "name": "wezterm-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for WezTerm terminal interaction",
+  "type": "module",
+  "main": "./build/index.js",
+  "bin": {
+    "wezterm-mcp": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "dev": "tsx src/index.ts"
+  },
+  "keywords": ["mcp", "wezterm", "terminal"],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0"
+  }
+}
