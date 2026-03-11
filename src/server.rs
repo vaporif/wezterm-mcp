@@ -115,6 +115,38 @@ impl WezTermMcpServer {
     ) -> Result<CallToolResult, rmcp::ErrorData> {
         Ok(tools::pane::move_pane_to_new_tab(params.0).await?)
     }
+
+    #[tool(description = "Activate a tab by id, index, or relative offset.")]
+    async fn activate_tab(
+        &self,
+        params: Parameters<tools::tab::ActivateTabParams>,
+    ) -> Result<CallToolResult, rmcp::ErrorData> {
+        Ok(tools::tab::activate_tab(params.0).await?)
+    }
+
+    #[tool(description = "Change the title of a tab.")]
+    async fn set_tab_title(
+        &self,
+        params: Parameters<tools::tab::SetTabTitleParams>,
+    ) -> Result<CallToolResult, rmcp::ErrorData> {
+        Ok(tools::tab::set_tab_title(params.0).await?)
+    }
+
+    #[tool(description = "Change the title of a window.")]
+    async fn set_window_title(
+        &self,
+        params: Parameters<tools::window::SetWindowTitleParams>,
+    ) -> Result<CallToolResult, rmcp::ErrorData> {
+        Ok(tools::window::set_window_title(params.0).await?)
+    }
+
+    #[tool(description = "Rename a workspace.")]
+    async fn rename_workspace(
+        &self,
+        params: Parameters<tools::window::RenameWorkspaceParams>,
+    ) -> Result<CallToolResult, rmcp::ErrorData> {
+        Ok(tools::window::rename_workspace(params.0).await?)
+    }
 }
 
 #[tool_handler]
