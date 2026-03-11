@@ -1,6 +1,9 @@
 use rmcp::handler::server::tool::ToolRouter;
-use rmcp::model::{Implementation, ServerCapabilities, ServerInfo};
-use rmcp::{tool_handler, tool_router};
+use rmcp::handler::server::wrapper::Parameters;
+use rmcp::model::{CallToolResult, Implementation, ServerCapabilities, ServerInfo};
+use rmcp::{tool, tool_handler, tool_router};
+
+use crate::tools;
 
 #[derive(Clone)]
 pub struct WezTermMcpServer {
@@ -13,6 +16,32 @@ impl WezTermMcpServer {
         Self {
             tool_router: Self::tool_router(),
         }
+    }
+
+    #[tool(description = "List all WezTerm windows, tabs and panes (JSON).")]
+    async fn list_panes(&self) -> Result<CallToolResult, rmcp::ErrorData> {
+        Ok(tools::query::list_panes().await?)
+    }
+
+    #[tool(description = "List connected WezTerm clients (JSON).")]
+    async fn list_clients(&self) -> Result<CallToolResult, rmcp::ErrorData> {
+        Ok(tools::query::list_clients().await?)
+    }
+
+    #[tool(description = "Retrieve textual content of a pane's terminal screen/scrollback.")]
+    async fn get_text(
+        &self,
+        params: Parameters<tools::query::GetTextParams>,
+    ) -> Result<CallToolResult, rmcp::ErrorData> {
+        Ok(tools::query::get_text(params.0).await?)
+    }
+
+    #[tool(description = "Get the pane ID of the adjacent pane in the given direction.")]
+    async fn get_pane_direction(
+        &self,
+        params: Parameters<tools::query::GetPaneDirectionParams>,
+    ) -> Result<CallToolResult, rmcp::ErrorData> {
+        Ok(tools::query::get_pane_direction(params.0).await?)
     }
 }
 
