@@ -13,7 +13,7 @@
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
-      nodejs = pkgs.nodejs_22;
+      nodejs = pkgs.nodejs_24;
     in {
       packages.default = pkgs.buildNpmPackage {
         pname = "wezterm-mcp";

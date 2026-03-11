@@ -29,8 +29,8 @@ Add to your MCP client configuration (e.g. Claude Code `~/.claude.json`):
 {
   "mcpServers": {
     "wezterm": {
-      "command": "node",
-      "args": ["/path/to/wezterm-mcp/build/index.js"]
+      "command": "npx",
+      "args": ["wezterm-mcp"]
     }
   }
 }
