@@ -4,44 +4,51 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    crane.url = "github:ipetkov/crane";
   };
 
   outputs = {
     self,
     nixpkgs,
     flake-utils,
+    fenix,
+    crane,
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
-      nodejs = pkgs.nodejs_24;
-    in {
-      packages.default = pkgs.buildNpmPackage {
-        pname = "wezterm-mcp";
-        version = "0.1.0";
+      fenixPkgs = fenix.packages.${system};
+      toolchain = fenixPkgs.stable.toolchain;
+      craneLib = (crane.mkLib pkgs).overrideToolchain toolchain;
 
-        src = ./.;
+      src = craneLib.cleanCargoSource ./.;
 
-        npmDepsHash = "sha256-F6cFDNT1JoRLQoI5dWfCPMALvJQFJAcyytFRmTodFDg=";
-
-        inherit nodejs;
-
-        installPhase = ''
-          mkdir -p $out/lib/wezterm-mcp $out/bin
-
-          cp -r build package.json node_modules $out/lib/wezterm-mcp/
-
-          makeWrapper ${nodejs}/bin/node $out/bin/wezterm-mcp \
-            --add-flags "$out/lib/wezterm-mcp/build/index.js" \
-            --prefix PATH : ${pkgs.lib.makeBinPath [pkgs.wezterm]}
-        '';
-
-        nativeBuildInputs = [pkgs.makeWrapper];
+      commonArgs = {
+        inherit src;
+        strictDeps = true;
       };
 
-      devShells.default = pkgs.mkShell {
-        buildInputs = [
-          nodejs
+      cargoArtifacts = craneLib.buildDepsOnly commonArgs;
+
+      wezterm-mcp = craneLib.buildPackage (commonArgs
+        // {
+          inherit cargoArtifacts;
+          nativeBuildInputs = [pkgs.makeWrapper];
+          postInstall = ''
+            wrapProgram $out/bin/wezterm-mcp \
+              --prefix PATH : ${pkgs.lib.makeBinPath [pkgs.wezterm]}
+          '';
+        });
+    in {
+      packages.default = wezterm-mcp;
+
+      devShells.default = craneLib.devShell {
+        packages = [
           pkgs.wezterm
+          pkgs.cargo-nextest
         ];
       };
     });
