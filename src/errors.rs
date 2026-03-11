@@ -7,9 +7,6 @@ pub enum Error {
 
     #[error("io error: {0}")]
     Io(#[from] std::io::Error),
-
-    #[error("serialization error: {0}")]
-    Serialization(#[from] serde_json::Error),
 }
 
 impl From<Error> for McpError {

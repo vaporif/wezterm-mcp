@@ -8,11 +8,11 @@ use crate::wezterm;
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct SetWindowTitleParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Target window ID.
-    pub window_id: Option<u32>,
+    pub(crate) window_id: Option<u32>,
     /// New title.
-    pub title: String,
+    pub(crate) title: String,
 }
 
 pub async fn set_window_title(params: SetWindowTitleParams) -> Result<CallToolResult, Error> {
@@ -35,11 +35,11 @@ pub async fn set_window_title(params: SetWindowTitleParams) -> Result<CallToolRe
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct RenameWorkspaceParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Current workspace name to rename.
-    pub workspace: Option<String>,
+    pub(crate) workspace: Option<String>,
     /// The new name for the workspace.
-    pub new_workspace: String,
+    pub(crate) new_workspace: String,
 }
 
 pub async fn rename_workspace(params: RenameWorkspaceParams) -> Result<CallToolResult, Error> {

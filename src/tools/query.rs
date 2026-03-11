@@ -6,32 +6,26 @@ use crate::errors::Error;
 use crate::tools::Direction;
 use crate::wezterm;
 
-// ── list_panes ──
-
 pub async fn list_panes() -> Result<CallToolResult, Error> {
     let output = wezterm::exec(&["list", "--format", "json"]).await?;
     Ok(CallToolResult::success(vec![Content::text(output.trim())]))
 }
-
-// ── list_clients ──
 
 pub async fn list_clients() -> Result<CallToolResult, Error> {
     let output = wezterm::exec(&["list-clients", "--format", "json"]).await?;
     Ok(CallToolResult::success(vec![Content::text(output.trim())]))
 }
 
-// ── get_text ──
-
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct GetTextParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Starting line. 0 = first screen line, negative = scrollback.
-    pub start_line: Option<i32>,
+    pub(crate) start_line: Option<i32>,
     /// Ending line. 0 = first screen line, negative = scrollback.
-    pub end_line: Option<i32>,
+    pub(crate) end_line: Option<i32>,
     /// Include color/style escape sequences.
-    pub escapes: Option<bool>,
+    pub(crate) escapes: Option<bool>,
 }
 
 pub async fn get_text(params: GetTextParams) -> Result<CallToolResult, Error> {
@@ -64,14 +58,12 @@ pub async fn get_text(params: GetTextParams) -> Result<CallToolResult, Error> {
     Ok(CallToolResult::success(vec![Content::text(output)]))
 }
 
-// ── get_pane_direction ──
-
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct GetPaneDirectionParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Direction.
-    pub direction: Direction,
+    pub(crate) direction: Direction,
 }
 
 pub async fn get_pane_direction(params: GetPaneDirectionParams) -> Result<CallToolResult, Error> {

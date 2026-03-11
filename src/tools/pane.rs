@@ -6,26 +6,24 @@ use crate::errors::Error;
 use crate::tools::{Direction, SplitDirection, ZoomMode};
 use crate::wezterm;
 
-// ── split_pane ──
-
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct SplitPaneParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Where to place the new pane relative to the target. Default: bottom.
-    pub direction: Option<SplitDirection>,
+    pub(crate) direction: Option<SplitDirection>,
     /// Split the entire window instead of the active pane.
-    pub top_level: Option<bool>,
+    pub(crate) top_level: Option<bool>,
     /// Number of cells for the new split.
-    pub cells: Option<u32>,
+    pub(crate) cells: Option<u32>,
     /// Percentage of available space for the new split.
-    pub percent: Option<u32>,
+    pub(crate) percent: Option<u32>,
     /// Working directory for the spawned program.
-    pub cwd: Option<String>,
+    pub(crate) cwd: Option<String>,
     /// Instead of spawning a new command, move this pane into the split.
-    pub move_pane_id: Option<u32>,
+    pub(crate) move_pane_id: Option<u32>,
     /// Command and args to run instead of the default shell.
-    pub program: Option<Vec<String>>,
+    pub(crate) program: Option<Vec<String>>,
 }
 
 pub async fn split_pane(params: SplitPaneParams) -> Result<CallToolResult, Error> {
@@ -69,24 +67,22 @@ pub async fn split_pane(params: SplitPaneParams) -> Result<CallToolResult, Error
     Ok(CallToolResult::success(vec![Content::text(output.trim())]))
 }
 
-// ── spawn ──
-
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct SpawnParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Domain name.
-    pub domain_name: Option<String>,
+    pub(crate) domain_name: Option<String>,
     /// Window to spawn into. Omit for current window.
-    pub window_id: Option<u32>,
+    pub(crate) window_id: Option<u32>,
     /// Spawn into a new window instead of a new tab.
-    pub new_window: Option<bool>,
+    pub(crate) new_window: Option<bool>,
     /// Working directory for the spawned program.
-    pub cwd: Option<String>,
+    pub(crate) cwd: Option<String>,
     /// Workspace name for the new window. Requires `new_window`. Default: "default".
-    pub workspace: Option<String>,
+    pub(crate) workspace: Option<String>,
     /// Command and args to run instead of the default shell.
-    pub program: Option<Vec<String>>,
+    pub(crate) program: Option<Vec<String>>,
 }
 
 pub async fn spawn(params: SpawnParams) -> Result<CallToolResult, Error> {
@@ -123,16 +119,14 @@ pub async fn spawn(params: SpawnParams) -> Result<CallToolResult, Error> {
     Ok(CallToolResult::success(vec![Content::text(output.trim())]))
 }
 
-// ── send_text ──
-
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct SendTextParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Text to send.
-    pub text: String,
+    pub(crate) text: String,
     /// Send directly instead of bracketed paste.
-    pub no_paste: Option<bool>,
+    pub(crate) no_paste: Option<bool>,
 }
 
 pub async fn send_text(params: SendTextParams) -> Result<CallToolResult, Error> {
@@ -150,12 +144,10 @@ pub async fn send_text(params: SendTextParams) -> Result<CallToolResult, Error> 
     Ok(CallToolResult::success(vec![Content::text(output.trim())]))
 }
 
-// ── activate_pane ──
-
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct ActivatePaneParams {
     /// Target pane ID to activate (focus).
-    pub pane_id: u32,
+    pub(crate) pane_id: u32,
 }
 
 pub async fn activate_pane(params: ActivatePaneParams) -> Result<CallToolResult, Error> {
@@ -164,14 +156,12 @@ pub async fn activate_pane(params: ActivatePaneParams) -> Result<CallToolResult,
     Ok(CallToolResult::success(vec![Content::text(output.trim())]))
 }
 
-// ── activate_pane_direction ──
-
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct ActivatePaneDirectionParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Direction.
-    pub direction: Direction,
+    pub(crate) direction: Direction,
 }
 
 pub async fn activate_pane_direction(
@@ -188,12 +178,10 @@ pub async fn activate_pane_direction(
     Ok(CallToolResult::success(vec![Content::text(output.trim())]))
 }
 
-// ── kill_pane ──
-
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct KillPaneParams {
     /// Pane ID to kill.
-    pub pane_id: u32,
+    pub(crate) pane_id: u32,
 }
 
 pub async fn kill_pane(params: KillPaneParams) -> Result<CallToolResult, Error> {
@@ -202,16 +190,14 @@ pub async fn kill_pane(params: KillPaneParams) -> Result<CallToolResult, Error> 
     Ok(CallToolResult::success(vec![Content::text(output.trim())]))
 }
 
-// ── adjust_pane_size ──
-
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct AdjustPaneSizeParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Direction.
-    pub direction: Direction,
+    pub(crate) direction: Direction,
     /// Number of cells to resize by. Default: 1.
-    pub amount: Option<u32>,
+    pub(crate) amount: Option<u32>,
 }
 
 pub async fn adjust_pane_size(params: AdjustPaneSizeParams) -> Result<CallToolResult, Error> {
@@ -231,14 +217,12 @@ pub async fn adjust_pane_size(params: AdjustPaneSizeParams) -> Result<CallToolRe
     Ok(CallToolResult::success(vec![Content::text(output.trim())]))
 }
 
-// ── zoom_pane ──
-
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct ZoomPaneParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Zoom mode. Default: "toggle".
-    pub mode: Option<ZoomMode>,
+    pub(crate) mode: Option<ZoomMode>,
 }
 
 pub async fn zoom_pane(params: ZoomPaneParams) -> Result<CallToolResult, Error> {
@@ -254,18 +238,16 @@ pub async fn zoom_pane(params: ZoomPaneParams) -> Result<CallToolResult, Error> 
     Ok(CallToolResult::success(vec![Content::text(output.trim())]))
 }
 
-// ── move_pane_to_new_tab ──
-
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct MovePaneToNewTabParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Target window. Omit for current window.
-    pub window_id: Option<u32>,
+    pub(crate) window_id: Option<u32>,
     /// Create the tab in a new window.
-    pub new_window: Option<bool>,
+    pub(crate) new_window: Option<bool>,
     /// Workspace name if creating a new window.
-    pub workspace: Option<String>,
+    pub(crate) workspace: Option<String>,
 }
 
 pub async fn move_pane_to_new_tab(params: MovePaneToNewTabParams) -> Result<CallToolResult, Error> {

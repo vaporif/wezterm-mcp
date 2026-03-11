@@ -8,15 +8,15 @@ use crate::wezterm;
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct ActivateTabParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Target tab ID.
-    pub tab_id: Option<u32>,
+    pub(crate) tab_id: Option<u32>,
     /// Tab index (0-based). Negative values count from the right (-1 = last).
-    pub tab_index: Option<i32>,
+    pub(crate) tab_index: Option<i32>,
     /// Relative offset. -1 = left, 1 = right, etc.
-    pub tab_relative: Option<i32>,
+    pub(crate) tab_relative: Option<i32>,
     /// Prevent wrapping when using `tab_relative`.
-    pub no_wrap: Option<bool>,
+    pub(crate) no_wrap: Option<bool>,
 }
 
 pub async fn activate_tab(params: ActivateTabParams) -> Result<CallToolResult, Error> {
@@ -51,11 +51,11 @@ pub async fn activate_tab(params: ActivateTabParams) -> Result<CallToolResult, E
 #[derive(Debug, Deserialize, JsonSchema)]
 pub struct SetTabTitleParams {
     /// Target pane ID. Defaults to the current pane (`WEZTERM_PANE`).
-    pub pane_id: Option<u32>,
+    pub(crate) pane_id: Option<u32>,
     /// Target tab ID.
-    pub tab_id: Option<u32>,
+    pub(crate) tab_id: Option<u32>,
     /// New title.
-    pub title: String,
+    pub(crate) title: String,
 }
 
 pub async fn set_tab_title(params: SetTabTitleParams) -> Result<CallToolResult, Error> {
