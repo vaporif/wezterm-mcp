@@ -36,6 +36,17 @@ Add to your MCP client configuration (e.g. Claude Code `~/.claude.json`):
 }
 ```
 
+Or with [rvx](https://github.com/vaporif/rvx?tab=readme-ov-file#install) (no Rust toolchain needed and no installation required):
+
+```json
+{
+  "mcpServers": {
+    "qdrant": {
+      "command": "rvx mcp-server-wezterm",
+    }
+  }
+}
+```
 ## Tools
 
 | Tool | Description |
