@@ -4,8 +4,23 @@ MCP server that exposes [WezTerm](https://wezfurlong.org/wezterm/) terminal cont
 
 ## Requirements
 
-- Node.js v24+
+- Rust 1.75+ (or Nix)
 - WezTerm with `wezterm cli` available on PATH
+
+## Install
+
+### From source
+
+```bash
+cargo build --release
+# binary at target/release/wezterm-mcp
+```
+
+### Nix
+
+```bash
+nix run github:vaporif/wezterm-mcp
+```
 
 ## Usage
 
@@ -15,17 +30,10 @@ Add to your MCP client configuration (e.g. Claude Code `~/.claude.json`):
 {
   "mcpServers": {
     "wezterm": {
-      "command": "npx",
-      "args": ["-y", "@vaporif/wezterm-mcp"]
+      "command": "/path/to/wezterm-mcp"
     }
   }
 }
-```
-
-### Nix
-
-```bash
-nix run github:vaporif/wezterm-mcp
 ```
 
 ## Tools
@@ -53,10 +61,11 @@ nix run github:vaporif/wezterm-mcp
 ## Development
 
 ```bash
-npm run dev    # Run directly via tsx
-npm run build  # Compile to build/
-npm start      # Run compiled output
-nix develop    # Nix devShell with node + wezterm
+cargo run             # Run in dev mode
+cargo build --release # Release build
+cargo clippy          # Lint
+cargo test            # Test
+nix develop           # Nix devShell with wezterm + cargo-nextest
 ```
 
 ## License
