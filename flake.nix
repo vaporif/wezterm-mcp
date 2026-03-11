@@ -36,11 +36,6 @@
       mcp-server-wezterm = craneLib.buildPackage (commonArgs
         // {
           inherit cargoArtifacts;
-          nativeBuildInputs = [pkgs.makeWrapper];
-          postInstall = ''
-            wrapProgram $out/bin/mcp-server-wezterm \
-              --prefix PATH : ${pkgs.lib.makeBinPath [pkgs.wezterm]}
-          '';
         });
     in {
       packages.default = mcp-server-wezterm;
