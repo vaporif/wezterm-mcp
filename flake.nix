@@ -33,17 +33,17 @@
 
       cargoArtifacts = craneLib.buildDepsOnly commonArgs;
 
-      wezterm-mcp = craneLib.buildPackage (commonArgs
+      mcp-server-wezterm = craneLib.buildPackage (commonArgs
         // {
           inherit cargoArtifacts;
           nativeBuildInputs = [pkgs.makeWrapper];
           postInstall = ''
-            wrapProgram $out/bin/wezterm-mcp \
+            wrapProgram $out/bin/mcp-server-wezterm \
               --prefix PATH : ${pkgs.lib.makeBinPath [pkgs.wezterm]}
           '';
         });
     in {
-      packages.default = wezterm-mcp;
+      packages.default = mcp-server-wezterm;
 
       devShells.default = craneLib.devShell {
         packages = [

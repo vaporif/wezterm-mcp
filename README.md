@@ -1,4 +1,4 @@
-# wezterm-mcp
+# mcp-server-wezterm
 
 MCP server that exposes [WezTerm](https://wezfurlong.org/wezterm/) terminal control via the [Model Context Protocol](https://modelcontextprotocol.io/).
 
@@ -13,13 +13,13 @@ MCP server that exposes [WezTerm](https://wezfurlong.org/wezterm/) terminal cont
 
 ```bash
 cargo build --release
-# binary at target/release/wezterm-mcp
+# binary at target/release/mcp-server-wezterm
 ```
 
 ### Nix
 
 ```bash
-nix run github:vaporif/wezterm-mcp
+nix run github:vaporif/mcp-server-wezterm
 ```
 
 ## Usage
@@ -30,7 +30,7 @@ Add to your MCP client configuration (e.g. Claude Code `~/.claude.json`):
 {
   "mcpServers": {
     "wezterm": {
-      "command": "/path/to/wezterm-mcp"
+      "command": "/path/to/mcp-server-wezterm"
     }
   }
 }

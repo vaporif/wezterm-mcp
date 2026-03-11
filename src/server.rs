@@ -153,7 +153,7 @@ impl WezTermMcpServer {
 impl rmcp::handler::server::ServerHandler for WezTermMcpServer {
     fn get_info(&self) -> ServerInfo {
         ServerInfo::new(ServerCapabilities::default()).with_server_info(Implementation::new(
-            "wezterm-mcp",
+            "mcp-server-wezterm",
             env!("CARGO_PKG_VERSION"),
         ))
     }
