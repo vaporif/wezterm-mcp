@@ -28,9 +28,7 @@ fn setup() -> TestEnv {
     }
 }
 
-async fn connect(
-    env: &TestEnv,
-) -> rmcp::service::RunningService<rmcp::service::RoleClient, ()> {
+async fn connect(env: &TestEnv) -> rmcp::service::RunningService<rmcp::service::RoleClient, ()> {
     let server_bin = env!("CARGO_BIN_EXE_mcp-server-wezterm");
     let path_var = format!(
         "{}:{}",
@@ -40,8 +38,7 @@ async fn connect(
     let log_str = env.log_path.display().to_string();
 
     let mut cmd = Command::new(server_bin);
-    cmd.env("PATH", &path_var)
-        .env("MOCK_WEZTERM_LOG", &log_str);
+    cmd.env("PATH", &path_var).env("MOCK_WEZTERM_LOG", &log_str);
 
     let transport = TokioChildProcess::new(cmd).expect("create transport");
 
@@ -63,10 +60,7 @@ fn read_log(env: &TestEnv) -> Vec<String> {
         .collect()
 }
 
-fn call_params(
-    name: &str,
-    args: Option<serde_json::Value>,
-) -> rmcp::model::CallToolRequestParams {
+fn call_params(name: &str, args: Option<serde_json::Value>) -> rmcp::model::CallToolRequestParams {
     let params = rmcp::model::CallToolRequestParams::new(name.to_string());
     match args.and_then(|v| v.as_object().cloned()) {
         Some(obj) => params.with_arguments(obj),
@@ -172,11 +166,7 @@ async fn test_get_text_with_params() {
     let log = read_log(&env);
     assert!(log[0].contains("get-text"), "log: {:?}", log[0]);
     assert!(log[0].contains("--pane-id\t5"), "log: {:?}", log[0]);
-    assert!(
-        log[0].contains("--start-line\t-10"),
-        "log: {:?}",
-        log[0]
-    );
+    assert!(log[0].contains("--start-line\t-10"), "log: {:?}", log[0]);
     assert!(log[0].contains("--end-line\t0"), "log: {:?}", log[0]);
 
     client.cancel().await.expect("shutdown");
@@ -435,11 +425,7 @@ async fn test_rename_workspace() {
         .expect("call rename_workspace");
 
     let log = read_log(&env);
-    assert!(
-        log[0].contains("rename-workspace"),
-        "log: {:?}",
-        log[0]
-    );
+    assert!(log[0].contains("rename-workspace"), "log: {:?}", log[0]);
     assert!(
         log[0].contains("--workspace\told-name"),
         "log: {:?}",
