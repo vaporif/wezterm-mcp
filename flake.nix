@@ -36,6 +36,7 @@
       mcp-server-wezterm = craneLib.buildPackage (commonArgs
         // {
           inherit cargoArtifacts;
+          cargoTestExtraArgs = "--features test-mock";
         });
     in {
       packages.default = mcp-server-wezterm;
